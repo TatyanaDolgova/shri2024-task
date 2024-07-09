@@ -13,7 +13,6 @@
     <link rel="stylesheet" type="text/css" href="reset.css" />
     <link rel="stylesheet" type="text/css" href="styles.css" />
 
-    <script defer src="vendors/babel.min.js"></script>
     <script async src="vendors/react-with-dom.js"></script>
   </head>
   <body>
@@ -38,6 +37,7 @@
       <div class="footer__copyright">© 1997–2023 ООО «Яндекс»</div>
     </footer>
 
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script defer type="text/babel">
       function Header() {
         let [expanded, setExpanded] = React.useState(false);
@@ -250,6 +250,9 @@
         },
       };
 
+      for (let i = 0; i < 6; ++i) {
+        TABS.all.items = [...TABS.all.items, ...TABS.all.items];
+      }
       const TABS_KEYS = Object.keys(TABS);
 
       function Main() {
