@@ -459,7 +459,7 @@
         );
       }
 
-      setTimeout(() => {
+      React.useEffect(() => {
         const root = ReactDOM.createRoot(document.getElementById("app"));
         root.render(
           <>
@@ -467,7 +467,7 @@
             <Main />
           </>
         );
-      }, 100);
+      }, []);
     </script>
   </body>
 </html>
