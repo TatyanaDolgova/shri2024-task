@@ -267,7 +267,7 @@
               new URLSearchParams(location.search).get("tab") || "all"
             );
           }
-        });
+        }, [activeTab]);
 
         const onSelectInput = (event) => {
           setActiveTab(event.target.value);
@@ -286,7 +286,7 @@
           if (newHasRightScroll !== hasRightScroll) {
             setHasRightScroll(newHasRightScroll);
           }
-        });
+        }, [sizes, hasRightScroll]);
 
         const onArrowCLick = () => {
           const scroller = ref.current.querySelector(
@@ -459,15 +459,13 @@
         );
       }
 
-      React.useEffect(() => {
-        const root = ReactDOM.createRoot(document.getElementById("app"));
-        root.render(
-          <>
-            <Header />
-            <Main />
-          </>
-        );
-      }, []);
+      const root = ReactDOM.createRoot(document.getElementById("app"));
+      root.render(
+        <>
+          <Header />
+          <Main />
+        </>
+      );
     </script>
   </body>
 </html>
