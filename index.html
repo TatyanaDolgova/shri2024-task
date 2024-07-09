@@ -10,9 +10,11 @@
       href="assets/lato.woff2"
       type="font/woff2"
       crossorigin="anonymous" />
-    <script src="vendors/react-with-dom.js"></script>
     <link rel="stylesheet" type="text/css" href="reset.css" />
     <link rel="stylesheet" type="text/css" href="styles.css" />
+
+    <script defer src="vendors/babel.min.js"></script>
+    <script defer src="vendors/react-with-dom.js"></script>
   </head>
   <body>
     <div id="app"></div>
@@ -36,7 +38,6 @@
       <div class="footer__copyright">© 1997–2023 ООО «Яндекс»</div>
     </footer>
 
-    <script defer src="vendors/babel.min.js"></script>
     <script defer type="text/babel">
       function Header() {
         let [expanded, setExpanded] = React.useState(false);
