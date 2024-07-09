@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
 
     <script defer src="vendors/babel.min.js"></script>
-    <script defer src="vendors/react-with-dom.js"></script>
+    <script async src="vendors/react-with-dom.js"></script>
   </head>
   <body>
     <div id="app"></div>
@@ -249,9 +249,7 @@
           ],
         },
       };
-      for (let i = 0; i < 6; ++i) {
-        TABS.all.items = [...TABS.all.items, ...TABS.all.items];
-      }
+
       const TABS_KEYS = Object.keys(TABS);
 
       function Main() {
