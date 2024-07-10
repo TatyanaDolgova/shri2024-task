@@ -212,15 +212,9 @@ const TABS = {
   },
 };
 
-const repeatArray = (arr, times) => {
-  let result = [];
-  for (let i = 0; i < times; i++) {
-    result = result.concat(arr);
-  }
-  return result;
-};
-
-TABS.all.items = repeatArray(TABS.all.items, Math.pow(2, 6));
+for (let i = 0; i < 6; ++i) {
+  TABS.all.items = [...TABS.all.items, ...TABS.all.items];
+}
 
 const TABS_KEYS = Object.keys(TABS);
 
