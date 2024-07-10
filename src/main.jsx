@@ -217,16 +217,16 @@ function Main() {
   const ref = useRef();
   const initedRef = useRef(false);
   const [activeTab, setActiveTab] = useState("");
-  const [hasRightScroll, setHasRightScroll] = useState(false);
+  const [hasRightScroll, setHasRightScroll] = useState(true);
   const [loadedItems, setLoadedItems] = useState(8);
-  const ITEMS_INCREMENT = 8;
+  const ITEMS_INCREMENT = 1;
 
   useEffect(() => {
     if (!activeTab && !initedRef.current) {
       initedRef.current = true;
       setActiveTab(new URLSearchParams(location.search).get("tab") || "all");
     }
-  });
+  }, [activeTab]);
 
   const onSelectInput = (event) => {
     setActiveTab(event.target.value);
@@ -240,11 +240,14 @@ function Main() {
   useEffect(() => {
     const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
 
-    const newHasRightScroll = sumWidth > ref.current.offsetWidth;
+    const newHasRightScroll = sumWidth < sizes[0].width * TABS.all.items.length;
+    // console.log(sumWidth, sizes[0].width * TABS.all.items.length);
+    // console.log(newHasRightScroll);
+    // console.log(TABS.all.items.length);
     if (newHasRightScroll !== hasRightScroll) {
       setHasRightScroll(newHasRightScroll);
     }
-  });
+  }, [sizes, hasRightScroll]);
 
   const onArrowCLick = () => {
     const scroller = ref.current.querySelector(
@@ -259,6 +262,8 @@ function Main() {
     setLoadedItems((prev) => prev + ITEMS_INCREMENT);
     console.log(loadedItems);
   };
+
+  const currentTab = TABS[activeTab] || { items: [] };
 
   return (
     <main className="main">
@@ -404,13 +409,13 @@ function Main() {
               id={`panel_${key}`}
               aria-labelledby={`tab_${key}`}>
               <ul className="section__panel-list">
-                {TABS[key].items.slice(0, loadedItems).map((item, index) => (
+                {TABS[key]?.items?.slice(0, loadedItems).map((item, index) => (
                   <Event key={index} {...item} onSize={onSize} />
                 ))}
               </ul>
             </div>
           ))}
-          {hasRightScroll && loadedItems < TABS[activeTab].items.length && (
+          {hasRightScroll && (
             <div className="section__arrow" onClick={onArrowCLick}></div>
           )}
         </div>
