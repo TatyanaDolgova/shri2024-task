@@ -214,12 +214,14 @@ for (let i = 0; i < 6; ++i) {
 const TABS_KEYS = Object.keys(TABS);
 
 function Main() {
-  const ref = React.useRef();
-  const initedRef = React.useRef(false);
-  const [activeTab, setActiveTab] = React.useState("");
-  const [hasRightScroll, setHasRightScroll] = React.useState(false);
+  const ref = useRef();
+  const initedRef = useRef(false);
+  const [activeTab, setActiveTab] = useState("");
+  const [hasRightScroll, setHasRightScroll] = useState(false);
+  const [loadedItems, setLoadedItems] = useState(8);
+  const ITEMS_INCREMENT = 8;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!activeTab && !initedRef.current) {
       initedRef.current = true;
       setActiveTab(new URLSearchParams(location.search).get("tab") || "all");
@@ -235,9 +237,8 @@ function Main() {
     sizes = [...sizes, size];
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-    const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
 
     const newHasRightScroll = sumWidth > ref.current.offsetWidth;
     if (newHasRightScroll !== hasRightScroll) {
@@ -255,6 +256,8 @@ function Main() {
         behavior: "smooth",
       });
     }
+    setLoadedItems((prev) => prev + ITEMS_INCREMENT);
+    console.log(loadedItems);
   };
 
   return (
@@ -401,13 +404,13 @@ function Main() {
               id={`panel_${key}`}
               aria-labelledby={`tab_${key}`}>
               <ul className="section__panel-list">
-                {TABS[key].items.map((item, index) => (
+                {TABS[key].items.slice(0, loadedItems).map((item, index) => (
                   <Event key={index} {...item} onSize={onSize} />
                 ))}
               </ul>
             </div>
           ))}
-          {hasRightScroll && (
+          {hasRightScroll && loadedItems < TABS[activeTab].items.length && (
             <div className="section__arrow" onClick={onArrowCLick}></div>
           )}
         </div>
