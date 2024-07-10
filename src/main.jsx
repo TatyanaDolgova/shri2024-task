@@ -208,25 +208,23 @@ const TABS = {
   },
 };
 
-for (let i = 0; i < 6; ++i) {
+for (let i = 0; i < 2; ++i) {
   TABS.all.items = [...TABS.all.items, ...TABS.all.items];
 }
 const TABS_KEYS = Object.keys(TABS);
 
 function Main() {
-  const ref = useRef();
-  const initedRef = useRef(false);
-  const [activeTab, setActiveTab] = useState("");
-  const [hasRightScroll, setHasRightScroll] = useState(true);
-  const [loadedItems, setLoadedItems] = useState(8);
-  const ITEMS_INCREMENT = 1;
+  const ref = React.useRef();
+  const initedRef = React.useRef(false);
+  const [activeTab, setActiveTab] = React.useState("");
+  const [hasRightScroll, setHasRightScroll] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!activeTab && !initedRef.current) {
       initedRef.current = true;
       setActiveTab(new URLSearchParams(location.search).get("tab") || "all");
     }
-  }, [activeTab]);
+  });
 
   const onSelectInput = (event) => {
     setActiveTab(event.target.value);
@@ -237,17 +235,15 @@ function Main() {
     sizes = [...sizes, size];
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
+    const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
 
-    const newHasRightScroll = sumWidth < sizes[0].width * TABS.all.items.length;
-    // console.log(sumWidth, sizes[0].width * TABS.all.items.length);
-    // console.log(newHasRightScroll);
-    // console.log(TABS.all.items.length);
+    const newHasRightScroll = sumWidth > ref.current.offsetWidth;
     if (newHasRightScroll !== hasRightScroll) {
       setHasRightScroll(newHasRightScroll);
     }
-  }, [sizes, hasRightScroll]);
+  });
 
   const onArrowCLick = () => {
     const scroller = ref.current.querySelector(
@@ -259,11 +255,7 @@ function Main() {
         behavior: "smooth",
       });
     }
-    setLoadedItems((prev) => prev + ITEMS_INCREMENT);
-    console.log(loadedItems);
   };
-
-  const currentTab = TABS[activeTab] || { items: [] };
 
   return (
     <main className="main">
@@ -409,7 +401,7 @@ function Main() {
               id={`panel_${key}`}
               aria-labelledby={`tab_${key}`}>
               <ul className="section__panel-list">
-                {TABS[key]?.items?.slice(0, loadedItems).map((item, index) => (
+                {TABS[key].items.map((item, index) => (
                   <Event key={index} {...item} onSize={onSize} />
                 ))}
               </ul>
