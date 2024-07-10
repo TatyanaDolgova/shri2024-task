@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { useEffect, useCallback, useState, useRef } from "react";
 
-function Header() {
-  const [state, setState] = React.useState({ expanded: false, toggled: false });
+const Header = React.memo(() => {
+  const [state, setState] = useState({ expanded: false, toggled: false });
 
-  const onClick = React.useCallback(() => {
+  const onClick = useCallback(() => {
     setState((prevState) => ({
       expanded: !prevState.expanded,
       toggled: true,
@@ -49,12 +50,12 @@ function Header() {
       </ul>
     </header>
   );
-}
+});
 
-function Event(props) {
-  const ref = React.useRef();
+const Event = React.memo((props) => {
+  const ref = useRef();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const width = ref.current.offsetWidth;
     const height = ref.current.offsetHeight;
     if (props.onSize) {
@@ -76,7 +77,7 @@ function Event(props) {
       </button>
     </li>
   );
-}
+});
 
 const TABS = {
   all: {
@@ -215,12 +216,13 @@ for (let i = 0; i < 6; ++i) {
 const TABS_KEYS = Object.keys(TABS);
 
 function Main() {
-  const ref = React.useRef();
-  const initedRef = React.useRef(false);
-  const [activeTab, setActiveTab] = React.useState("");
-  const [hasRightScroll, setHasRightScroll] = React.useState(false);
+  const ref = useRef();
+  const initedRef = useRef(false);
+  const [activeTab, setActiveTab] = useState("");
+  const [hasRightScroll, setHasRightScroll] = useState(false);
+  const [sizes, setSizes] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!activeTab && !initedRef.current) {
       initedRef.current = true;
       setActiveTab(new URLSearchParams(location.search).get("tab") || "all");
@@ -231,14 +233,12 @@ function Main() {
     setActiveTab(event.target.value);
   };
 
-  let sizes = [];
-  const onSize = (size) => {
-    sizes = [...sizes, size];
-  };
+  const onSize = useCallback((size) => {
+    setSizes((prevSizes) => [...prevSizes, size]);
+  }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-    const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
 
     const newHasRightScroll = sumWidth > ref.current.offsetWidth;
     if (newHasRightScroll !== hasRightScroll) {
