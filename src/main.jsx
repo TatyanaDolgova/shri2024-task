@@ -220,7 +220,6 @@ function Main() {
   const initedRef = useRef(false);
   const [activeTab, setActiveTab] = useState("");
   const [hasRightScroll, setHasRightScroll] = useState(false);
-  const [sizes, setSizes] = useState([]);
 
   useEffect(() => {
     if (!activeTab && !initedRef.current) {
@@ -233,12 +232,14 @@ function Main() {
     setActiveTab(event.target.value);
   };
 
-  const onSize = useCallback((size) => {
-    setSizes((prevSizes) => [...prevSizes, size]);
-  }, []);
+  let sizes = [];
+  const onSize = (size) => {
+    sizes = [...sizes, size];
+  };
 
   useEffect(() => {
     const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
+    const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
 
     const newHasRightScroll = sumWidth > ref.current.offsetWidth;
     if (newHasRightScroll !== hasRightScroll) {
