@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+import { FixedSizeList as List } from "react-window";
 import Event from "./Event";
 
 const TABS = {
@@ -328,6 +329,30 @@ function Main() {
               <ul className="section__panel-list">
                 {TABS[key].items.map((item, index) => (
                   <Event key={index} {...item} onSize={onSize} />
+                ))}{" "}
+                {TABS_KEYS.map((key) => (
+                  <div
+                    key={key}
+                    role="tabpanel"
+                    className={
+                      "section__panel" +
+                      (key === activeTab ? "" : " section__panel_hidden")
+                    }
+                    aria-hidden={key === activeTab ? "false" : "true"}
+                    id={`panel_${key}`}
+                    aria-labelledby={`tab_${key}`}>
+                    <List
+                      height={120}
+                      itemCount={TABS[key].items.length}
+                      itemSize={200}
+                      width={"100%"}>
+                      {({ index, style }) => (
+                        <div style={style}>
+                          <Event {...TABS[key].items[index]} onSize={onSize} />
+                        </div>
+                      )}
+                    </List>
+                  </div>
                 ))}
               </ul>
             </div>
