@@ -219,7 +219,7 @@ function Main() {
   const initedRef = useRef(false);
   const [activeTab, setActiveTab] = useState("");
   const [hasRightScroll, setHasRightScroll] = useState(false);
-  const [visibleItemsCount, setVisibleItemsCount] = useState(7);
+  const [visibleItemsCount, setVisibleItemsCount] = useState(10);
 
   useEffect(() => {
     if (!activeTab && !initedRef.current) {
@@ -256,7 +256,7 @@ function Main() {
         left: scroller.scrollLeft + 400,
         behavior: "smooth",
       });
-      setVisibleItemsCount((prevCount) => prevCount + 7);
+      setVisibleItemsCount((prevCount) => prevCount + 10);
     }
   };
 
@@ -412,7 +412,9 @@ function Main() {
               </ul>
             </div>
           ))}
-          {<div className="section__arrow" onClick={onArrowClick}></div>}
+          {hasRightScroll && (
+            <div className="section__arrow" onClick={onArrowClick}></div>
+          )}
         </div>
       </section>
     </main>
