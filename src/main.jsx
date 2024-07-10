@@ -211,41 +211,39 @@ const TABS = {
 for (let i = 0; i < 6; ++i) {
   TABS.all.items = [...TABS.all.items, ...TABS.all.items];
 }
+const TABS_KEYS = Object.keys(TABS);
 
 function Main() {
-  const ref = useRef();
-  const initedRef = useRef(false);
-  const [activeTab, setActiveTab] = useState("");
-  const [hasRightScroll, setHasRightScroll] = useState(true);
-  const [visibleItemsCount, setVisibleItemsCount] = useState(8);
-  const TABS_KEYS = Object.keys(TABS);
+  const ref = React.useRef();
+  const initedRef = React.useRef(false);
+  const [activeTab, setActiveTab] = React.useState("");
+  const [hasRightScroll, setHasRightScroll] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!activeTab && !initedRef.current) {
       initedRef.current = true;
-      setActiveTab(
-        new URLSearchParams(window.location.search).get("tab") || "all"
-      );
+      setActiveTab(new URLSearchParams(location.search).get("tab") || "all");
     }
-  }, [activeTab]);
+  });
 
   const onSelectInput = (event) => {
     setActiveTab(event.target.value);
   };
 
   let sizes = [];
-
   const onSize = (size) => {
     sizes = [...sizes, size];
   };
 
-  // useEffect(() => {
-  //   const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-  //   const newHasRightScroll = sumWidth > ref.current.offsetWidth;
-  //   if (newHasRightScroll !== hasRightScroll) {
-  //     setHasRightScroll(newHasRightScroll);
-  //   }
-  // }, [sizes, hasRightScroll]);
+  React.useEffect(() => {
+    const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
+    const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
+
+    const newHasRightScroll = sumWidth > ref.current.offsetWidth;
+    if (newHasRightScroll !== hasRightScroll) {
+      setHasRightScroll(newHasRightScroll);
+    }
+  });
 
   const onArrowCLick = () => {
     const scroller = ref.current.querySelector(
@@ -257,20 +255,7 @@ function Main() {
         behavior: "smooth",
       });
     }
-
-    setVisibleItemsCount((prevCount) => {
-      const newCount = Math.min(prevCount + 8, TABS.all.items.length);
-      console.log(newCount);
-      return newCount;
-    });
   };
-
-  useEffect(() => {
-    if (visibleItemsCount >= TABS.all.items.length) {
-      setHasRightScroll(false);
-    }
-    console.log(hasRightScroll, TABS.all.items.length, visibleItemsCount);
-  }, [visibleItemsCount, activeTab]);
 
   return (
     <main className="main">
@@ -416,11 +401,9 @@ function Main() {
               id={`panel_${key}`}
               aria-labelledby={`tab_${key}`}>
               <ul className="section__panel-list">
-                {TABS[key].items
-                  .slice(0, visibleItemsCount)
-                  .map((item, index) => (
-                    <Event key={index} {...item} onSize={onSize} />
-                  ))}
+                {TABS[key].items.map((item, index) => (
+                  <Event key={index} {...item} onSize={onSize} />
+                ))}
               </ul>
             </div>
           ))}
