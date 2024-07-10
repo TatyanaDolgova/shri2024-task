@@ -8,6 +8,7 @@
     "esbuild": "^0.21.5",
     "react-dom": "^18.3.1",
     "vite": "^5.3.1",
+    "vite-plugin-compression2": "^1.1.2",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-purgecss": "^0.2.12"
   },
