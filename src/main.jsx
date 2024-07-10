@@ -1,8 +1,7 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import { useEffect, useCallback, useState, useRef } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 
-const Header = React.memo(() => {
+const Header = () => {
   const [state, setState] = useState({ expanded: false, toggled: false });
 
   const onClick = useCallback(() => {
@@ -50,9 +49,9 @@ const Header = React.memo(() => {
       </ul>
     </header>
   );
-});
+};
 
-const Event = React.memo((props) => {
+const Event = (props) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -77,7 +76,7 @@ const Event = React.memo((props) => {
       </button>
     </li>
   );
-});
+};
 
 const TABS = {
   all: {
@@ -220,6 +219,7 @@ function Main() {
   const initedRef = useRef(false);
   const [activeTab, setActiveTab] = useState("");
   const [hasRightScroll, setHasRightScroll] = useState(false);
+  const [visibleItemsCount, setVisibleItemsCount] = useState(7);
 
   useEffect(() => {
     if (!activeTab && !initedRef.current) {
@@ -233,13 +233,13 @@ function Main() {
   };
 
   let sizes = [];
+
   const onSize = (size) => {
     sizes = [...sizes, size];
   };
 
   useEffect(() => {
     const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-    const sumHeight = sizes.reduce((acc, item) => acc + item.height, 0);
 
     const newHasRightScroll = sumWidth > ref.current.offsetWidth;
     if (newHasRightScroll !== hasRightScroll) {
@@ -247,7 +247,7 @@ function Main() {
     }
   }, [sizes, hasRightScroll]);
 
-  const onArrowCLick = () => {
+  const onArrowClick = () => {
     const scroller = ref.current.querySelector(
       ".section__panel:not(.section__panel_hidden)"
     );
@@ -256,6 +256,7 @@ function Main() {
         left: scroller.scrollLeft + 400,
         behavior: "smooth",
       });
+      setVisibleItemsCount((prevCount) => prevCount + 7);
     }
   };
 
@@ -403,15 +404,15 @@ function Main() {
               id={`panel_${key}`}
               aria-labelledby={`tab_${key}`}>
               <ul className="section__panel-list">
-                {TABS[key].items.map((item, index) => (
-                  <Event key={index} {...item} onSize={onSize} />
-                ))}
+                {TABS[key].items
+                  .slice(0, visibleItemsCount)
+                  .map((item, index) => (
+                    <Event key={index} {...item} onSize={onSize} />
+                  ))}
               </ul>
             </div>
           ))}
-          {hasRightScroll && (
-            <div className="section__arrow" onClick={onArrowCLick}></div>
-          )}
+          {<div className="section__arrow" onClick={onArrowClick}></div>}
         </div>
       </section>
     </main>
