@@ -2,16 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 function Header() {
-  let [expanded, setExpanded] = React.useState(false);
-  let [toggled, setToggled] = React.useState(false);
+  const [state, setState] = React.useState({ expanded: false, toggled: false });
 
-  const onClick = () => {
-    if (!toggled) {
-      setToggled(true);
-    }
+  const onClick = React.useCallback(() => {
+    setState((prevState) => ({
+      expanded: !prevState.expanded,
+      toggled: true,
+    }));
+  }, []);
 
-    setExpanded(!expanded);
-  };
+  const { expanded, toggled } = state;
 
   return (
     <header className="header">
@@ -25,11 +25,9 @@ function Header() {
         </span>
       </button>
       <ul
-        className={
-          "header__links" +
-          (expanded ? " header__links_opened" : "") +
-          (toggled ? " header__links-toggled" : "")
-        }>
+        className={`header__links${expanded ? " header__links_opened" : ""}${
+          toggled ? " header__links-toggled" : ""
+        }`}>
         <li className="header__item">
           <a
             className="header__link header__link_current"
@@ -56,18 +54,16 @@ function Header() {
 function Event(props) {
   const ref = React.useRef();
 
-  const { onSize } = props;
-
   React.useEffect(() => {
     const width = ref.current.offsetWidth;
     const height = ref.current.offsetHeight;
-    if (onSize) {
-      onSize({ width, height });
+    if (props.onSize) {
+      props.onSize({ width, height });
     }
-  });
+  }, [props.onSize]);
 
   return (
-    <li ref={ref} className={"event" + (props.slim ? " event_slim" : "")}>
+    <li ref={ref} className={`event${props.slim ? " event_slim" : ""}`}>
       <button className="event__button">
         <span
           className={`event__icon event__icon_${props.icon}`}
@@ -212,13 +208,9 @@ const TABS = {
   },
 };
 
-let items = TABS.all.items;
-
 for (let i = 0; i < 6; ++i) {
-  items = items.concat(items);
+  TABS.all.items = [...TABS.all.items, ...TABS.all.items];
 }
-
-TABS.all.items = items;
 
 const TABS_KEYS = Object.keys(TABS);
 
