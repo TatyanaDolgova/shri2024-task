@@ -12477,7 +12477,7 @@ body {
   width: 6.75rem;
   height: 2.3125rem;
   margin-right: 3.25rem;
-  background: no-repeat 50% 50% url(/fbf3825fdaeb5d79fbbe.svg);
+  background: no-repeat 50% 50% url(./fbf3825fdaeb5d79fbbe.svg);
   background-size: contain;
 }
 
@@ -12487,7 +12487,7 @@ body {
   height: 100%;
   margin: 0 0 0 auto;
   padding: 0;
-  background: 50% 50% no-repeat transparent url(/2c481f94300218fcebd0.svg);
+  background: 50% 50% no-repeat transparent url(./2c481f94300218fcebd0.svg);
   border: none;
   border-radius: 0;
   appearance: none;
@@ -12648,7 +12648,7 @@ body {
   font-size: 0.8125rem;
   font-family: inherit;
   font-weight: bold;
-  background: no-repeat calc(100% - 1rem) 50% #FFD93E url(/d655218a2b02d5911247.svg);
+  background: no-repeat calc(100% - 1rem) 50% #FFD93E url(./d655218a2b02d5911247.svg);
   appearance: none;
 }
 
@@ -12700,7 +12700,7 @@ body {
   display: flex;
   gap: 0.9375rem;
   height: 20.6875rem;
-  background: no-repeat 50% 50% url(/ff3729ef3eff5d2bddcb.webp);
+  background: no-repeat 50% 50% url(./ff3729ef3eff5d2bddcb.webp);
   /*background-size: cover;*/
   background-size: 1260px;
   border-radius: 1.25rem;
@@ -12815,7 +12815,7 @@ body {
 }
 
 .hero-dashboard__icon_rain {
-  background-image: url(/96d177798e471cc2c056.svg);
+  background-image: url(./96d177798e471cc2c056.svg);
 }
 
 .hero-dashboard__schedule {
@@ -12883,23 +12883,23 @@ body {
 }
 
 .event__icon_temp {
-  background-image: url(/0d19e216b2d5b7971f85.svg);
+  background-image: url(./0d19e216b2d5b7971f85.svg);
 }
 
 .event__icon_temp2 {
-  background-image: url(/b61801258e48a97351d6.svg);
+  background-image: url(./b61801258e48a97351d6.svg);
 }
 
 .event__icon_light {
-  background-image: url(/ab45bd1abea4a81765bb.svg);
+  background-image: url(./ab45bd1abea4a81765bb.svg);
 }
 
 .event__icon_light2 {
-  background-image: url(/f1c80687f8b99c25c4c9.svg);
+  background-image: url(./f1c80687f8b99c25c4c9.svg);
 }
 
 .event__icon_schedule {
-  background-image: url(/71bbb008775a1c81db81.svg);
+  background-image: url(./71bbb008775a1c81db81.svg);
 }
 
 .event__title {
@@ -12968,7 +12968,7 @@ body {
   right: 0;
   width: 18px;
   bottom: 10px;
-  background: no-repeat 50% 50% url(/a5506fa04db381094512.png);
+  background: no-repeat 50% 50% url(./a5506fa04db381094512.png);
   transform: rotate(180deg);
   cursor: pointer;
 }
