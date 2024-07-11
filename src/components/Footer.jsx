@@ -1,3 +1,5 @@
+import React from "react";
+
 const Footer = () => {
   return (
     <footer className="footer">
@@ -23,6 +25,7 @@ const Footer = () => {
           </a>
         </li>
       </ul>
+
       <div className="footer__copyright">© 1997–2023 ООО «Яндекс»</div>
     </footer>
   );

@@ -1,18 +1,20 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 const Event = (props) => {
   const ref = useRef();
 
+  const { onSize } = props;
+
   useEffect(() => {
     const width = ref.current.offsetWidth;
     const height = ref.current.offsetHeight;
-    if (props.onSize) {
-      props.onSize({ width, height });
+    if (onSize) {
+      onSize({ width, height });
     }
-  }, [props.onSize]);
+  });
 
   return (
-    <li ref={ref} className={`event${props.slim ? " event_slim" : ""}`}>
+    <li ref={ref} className={"event" + (props.slim ? " event_slim" : "")}>
       <button className="event__button">
         <span
           className={`event__icon event__icon_${props.icon}`}

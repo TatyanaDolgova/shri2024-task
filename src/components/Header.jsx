@@ -1,16 +1,16 @@
-import { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 const Header = () => {
-  const [state, setState] = useState({ expanded: false, toggled: false });
+  let [expanded, setExpanded] = useState(false);
+  let [toggled, setToggled] = useState(false);
 
-  const onClick = useCallback(() => {
-    setState((prevState) => ({
-      expanded: !prevState.expanded,
-      toggled: true,
-    }));
-  }, []);
+  const onClick = () => {
+    if (!toggled) {
+      setToggled(true);
+    }
 
-  const { expanded, toggled } = state;
+    setExpanded(!expanded);
+  };
 
   return (
     <header className="header">
@@ -24,9 +24,11 @@ const Header = () => {
         </span>
       </button>
       <ul
-        className={`header__links${expanded ? " header__links_opened" : ""}${
-          toggled ? " header__links-toggled" : ""
-        }`}>
+        className={
+          "header__links" +
+          (expanded ? " header__links_opened" : "") +
+          (toggled ? " header__links-toggled" : "")
+        }>
         <li className="header__item">
           <a
             className="header__link header__link_current"
