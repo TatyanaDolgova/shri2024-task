@@ -4,8 +4,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
-const glob = require('glob');
 
 const PATHS = {
   src: path.join(__dirname, "src"),
@@ -87,9 +85,6 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
-    }),
-    new PurgeCSSPlugin({
-      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
     }),
   ],
   devServer: {
