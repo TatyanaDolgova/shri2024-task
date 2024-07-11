@@ -11,14 +11,30 @@ module.exports = {
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: './',
+    publicPath: '/',
   },
   mode: 'production',
+  devtool: 'source-map',
   optimization: {
     minimize: true,
     minimizer: [
-      new TerserPlugin(),
-      new CssMinimizerPlugin(),
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+          compress: {
+            drop_console: true,
+          },
+          sourceMap: true,
+        },
+      }),
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: ['default', { discardComments: { removeAll: true } }],
+          map: { inline: false, annotation: true },
+        },
+      }),
     ],
     splitChunks: {
       chunks: 'all',

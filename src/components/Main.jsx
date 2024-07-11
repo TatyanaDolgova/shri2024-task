@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState, Suspense } from "react";
-
-const Event = React.lazy(() => import("./Event.jsx"));
+import React, { useEffect, useRef, useState } from "react";
+import Event from "./Event.jsx";
 
 const TABS = {
   all: {
@@ -132,7 +131,6 @@ const TABS = {
   },
 };
 
-// Double the items in 'all' tab for demonstration
 for (let i = 0; i < 6; ++i) {
   TABS.all.items = [...TABS.all.items, ...TABS.all.items];
 }
@@ -144,30 +142,33 @@ const Main = () => {
   const initedRef = useRef(false);
   const [activeTab, setActiveTab] = useState("");
   const [hasRightScroll, setHasRightScroll] = useState(false);
-  const [sizes, setSizes] = useState([]);
 
   useEffect(() => {
-    // Initialize active tab from URL params on first load
     if (!activeTab && !initedRef.current) {
       initedRef.current = true;
       setActiveTab(new URLSearchParams(location.search).get("tab") || "all");
     }
-  }, [activeTab]);
+  });
 
-  // Handle select input change
   const onSelectInput = (event) => {
     setActiveTab(event.target.value);
   };
 
-  // Calculate total width of items for scroll check
+  let sizes = [];
+  const onSize = (size) => {
+    sizes = [...sizes, size];
+  };
+
   useEffect(() => {
     const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-    const newHasRightScroll = sumWidth > ref.current.offsetWidth;
-    setHasRightScroll(newHasRightScroll);
-  }, [sizes]);
 
-  // Handler for arrow click to scroll
-  const onArrowClick = () => {
+    const newHasRightScroll = sumWidth > ref.current.offsetWidth;
+    if (newHasRightScroll !== hasRightScroll) {
+      setHasRightScroll(newHasRightScroll);
+    }
+  });
+
+  const onArrowCLick = () => {
     const scroller = ref.current.querySelector(
       ".section__panel:not(.section__panel_hidden)"
     );
@@ -177,11 +178,6 @@ const Main = () => {
         behavior: "smooth",
       });
     }
-  };
-
-  // Handler to update sizes state
-  const onSize = (size) => {
-    setSizes((prevSizes) => [...prevSizes, size]);
   };
 
   return (
@@ -218,26 +214,24 @@ const Main = () => {
             </ul>
           </div>
           <ul className="hero-dashboard__schedule">
-            <Suspense fallback={<div>Loading...</div>}>
-              <Event
-                icon="temp"
-                iconLabel="Температура"
-                title="Philips Cooler"
-                subtitle="Начнет охлаждать в 16:30"
-              />
-              <Event
-                icon="light"
-                iconLabel="Освещение"
-                title="Xiaomi Yeelight LED Smart Bulb"
-                subtitle="Включится в 17:00"
-              />
-              <Event
-                icon="light"
-                iconLabel="Освещение"
-                title="Xiaomi Yeelight LED Smart Bulb"
-                subtitle="Включится в 17:00"
-              />
-            </Suspense>
+            <Event
+              icon="temp"
+              iconLabel="Температура"
+              title="Philips Cooler"
+              subtitle="Начнет охлаждать в 16:30"
+            />
+            <Event
+              icon="light"
+              iconLabel="Освещение"
+              title="Xiaomi Yeelight LED Smart Bulb"
+              subtitle="Включится в 17:00"
+            />
+            <Event
+              icon="light"
+              iconLabel="Освещение"
+              title="Xiaomi Yeelight LED Smart Bulb"
+              subtitle="Включится в 17:00"
+            />
           </ul>
         </div>
       </section>
@@ -248,39 +242,37 @@ const Main = () => {
         </h2>
 
         <ul className="event-grid">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Event
-              slim={true}
-              icon="light2"
-              iconLabel="Освещение"
-              title="Выключить весь свет в доме и во дворе"
-            />
-            <Event
-              slim={true}
-              icon="schedule"
-              iconLabel="Расписание"
-              title="Я ухожу"
-            />
-            <Event
-              slim={true}
-              icon="light2"
-              iconLabel="Освещение"
-              title="Включить свет в коридоре"
-            />
-            <Event
-              slim={true}
-              icon="temp2"
-              iconLabel="Температура"
-              title="Набрать горячую ванну"
-              subtitle="Начнётся в 18:00"
-            />
-            <Event
-              slim={true}
-              icon="temp2"
-              iconLabel="Температура"
-              title="Сделать пол тёплым во всей квартире"
-            />
-          </Suspense>
+          <Event
+            slim={true}
+            icon="light2"
+            iconLabel="Освещение"
+            title="Выключить весь свет в доме и во дворе"
+          />
+          <Event
+            slim={true}
+            icon="schedule"
+            iconLabel="Расписание"
+            title="Я ухожу"
+          />
+          <Event
+            slim={true}
+            icon="light2"
+            iconLabel="Освещение"
+            title="Включить свет в коридоре"
+          />
+          <Event
+            slim={true}
+            icon="temp2"
+            iconLabel="Температура"
+            title="Набрать горячую ванну"
+            subtitle="Начнётся в 18:00"
+          />
+          <Event
+            slim={true}
+            icon="temp2"
+            iconLabel="Температура"
+            title="Сделать пол тёплым во всей квартире"
+          />
         </ul>
       </section>
 
@@ -291,7 +283,7 @@ const Main = () => {
           <select
             className="section__select"
             defaultValue="all"
-            onChange={onSelectInput}>
+            onInput={onSelectInput}>
             {TABS_KEYS.map((key) => (
               <option key={key} value={key}>
                 {TABS[key].title}
@@ -311,6 +303,7 @@ const Main = () => {
                   (key === activeTab ? " section__tab_active" : "")
                 }
                 id={`tab_${key}`}
+                aria-controls={`panel_${key}`}
                 onClick={() => setActiveTab(key)}>
                 {TABS[key].title}
               </li>
@@ -322,6 +315,7 @@ const Main = () => {
           {TABS_KEYS.map((key) => (
             <div
               key={key}
+              role="tabpanel"
               className={
                 "section__panel" +
                 (key === activeTab ? "" : " section__panel_hidden")
@@ -331,15 +325,13 @@ const Main = () => {
               aria-labelledby={`tab_${key}`}>
               <ul className="section__panel-list">
                 {TABS[key].items.map((item, index) => (
-                  <Suspense>
-                    <Event key={index} {...item} onSize={onSize} />
-                  </Suspense>
+                  <Event key={index} {...item} onSize={onSize} />
                 ))}
               </ul>
             </div>
           ))}
           {hasRightScroll && (
-            <div className="section__arrow" onClick={onArrowClick}></div>
+            <div className="section__arrow" onClick={onArrowCLick}></div>
           )}
         </div>
       </section>
