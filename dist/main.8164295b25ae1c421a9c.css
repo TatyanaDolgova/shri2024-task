@@ -567,7 +567,7 @@ body {
   display: flex;
   gap: 0.9375rem;
   height: 20.6875rem;
-  background: no-repeat 50% 50% url(./ff3729ef3eff5d2bddcb.webp);
+  background: no-repeat 50% 50% url(./75ee4bf9022dc6a6b347.avif);
   /*background-size: cover;*/
   background-size: 1260px;
   border-radius: 1.25rem;
@@ -579,7 +579,7 @@ body {
     gap: 1.25rem;
     height: auto;
     margin-bottom: 0.3125rem;
-    background-image: url(./c300fd95f2aef5361990.webp);
+    background-image: url(./35034c42c99db72d4edd.avif);
   }
 }
 
@@ -836,7 +836,7 @@ body {
   right: 0;
   width: 18px;
   bottom: 10px;
-  background: no-repeat 50% 50% url(./ea7dfc1358d9c8d71286.webp);
+  background: no-repeat 50% 50% url(./0aad5a386158e4c50f21.avif);
   transform: rotate(180deg);
   cursor: pointer;
 }
