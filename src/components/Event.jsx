@@ -1,17 +1,20 @@
 import React, { useEffect, useRef } from "react";
 
-const Event = (props) => {
+const Event = React.memo((props) => {
   const ref = useRef();
 
   const { onSize } = props;
 
   useEffect(() => {
-    const width = ref.current.offsetWidth;
-    const height = ref.current.offsetHeight;
-    if (onSize) {
-      onSize({ width, height });
-    }
-  });
+    const handleResize = () => {
+      const width = ref.current.offsetWidth;
+      const height = ref.current.offsetHeight;
+      if (onSize) {
+        onSize({ width, height });
+      }
+    };
+    handleResize();
+  }, [onSize]);
 
   return (
     <li ref={ref} className={"event" + (props.slim ? " event_slim" : "")}>
@@ -27,6 +30,6 @@ const Event = (props) => {
       </button>
     </li>
   );
-};
+});
 
 export default Event;

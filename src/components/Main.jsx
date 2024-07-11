@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import Event from "./Event.jsx";
+import React, { useEffect, useRef, useState, Suspense } from "react";
+
+const Event = React.lazy(() => import("./Event.jsx"));
 
 const TABS = {
   all: {
