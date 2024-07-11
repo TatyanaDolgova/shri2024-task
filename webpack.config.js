@@ -82,6 +82,15 @@ module.exports = {
         removeComments: true,
         collapseWhitespace: true,
       },
+      headTags: [
+        {
+          tagName: 'link',
+          attributes: {
+            rel: 'preload',
+            href: './src/assets/bg_2x.webp',
+            as: 'image',
+          },
+        },]
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
