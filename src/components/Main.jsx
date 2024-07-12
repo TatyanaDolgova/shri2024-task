@@ -131,9 +131,9 @@ const TABS = {
   },
 };
 
-for (let i = 0; i < 6; ++i) {
-  TABS.all.items = [...TABS.all.items, ...TABS.all.items];
-}
+// for (let i = 0; i < 6; ++i) {
+//   TABS.all.items = [...TABS.all.items, ...TABS.all.items];
+// }
 
 const TABS_KEYS = Object.keys(TABS);
 
@@ -161,7 +161,6 @@ const Main = () => {
 
   useEffect(() => {
     const sumWidth = sizes.reduce((acc, item) => acc + item.width, 0);
-
     const newHasRightScroll = sumWidth > ref.current.offsetWidth;
     if (newHasRightScroll !== hasRightScroll) {
       setHasRightScroll(newHasRightScroll);
@@ -324,9 +323,11 @@ const Main = () => {
               id={`panel_${key}`}
               aria-labelledby={`tab_${key}`}>
               <ul className="section__panel-list">
-                {TABS[key].items.map((item, index) => (
-                  <Event key={index} {...item} onSize={onSize} />
-                ))}
+                {Array.from({ length: 64 }).map((_, i) =>
+                  TABS[key].items.map((item, index) => (
+                    <Event key={`${i}-${index}`} {...item} onSize={onSize} />
+                  ))
+                )}
               </ul>
             </div>
           ))}
