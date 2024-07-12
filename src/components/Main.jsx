@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Event from "./Event.jsx";
 
 const TABS = {
@@ -179,6 +179,14 @@ const Main = () => {
     }
   };
 
+  const renderedItems = useMemo(
+    () =>
+      TABS.all.items.map((item, index) => (
+        <Event key={index} {...item} onSize={onSize} />
+      )),
+    []
+  );
+
   return (
     <main className="main">
       <section className="section main__general">
@@ -323,11 +331,12 @@ const Main = () => {
               id={`panel_${key}`}
               aria-labelledby={`tab_${key}`}>
               <ul className="section__panel-list">
-                {Array.from({ length: 64 }).map((_, i) =>
-                  TABS[key].items.map((item, index) => (
-                    <Event key={`${i}-${index}`} {...item} onSize={onSize} />
-                  ))
-                )}
+                {/* {TABS[key].items.map((item, index) => (
+                  <Event key={index} {...item} onSize={onSize} />
+                ))} */}
+                {Array.from({ length: 64 }).map((_, i) => (
+                  <React.Fragment key={i}>{renderedItems}</React.Fragment>
+                ))}
               </ul>
             </div>
           ))}
