@@ -179,13 +179,11 @@ const Main = () => {
     }
   };
 
-  const renderedItems = useMemo(
-    () =>
-      TABS.all.items.map((item, index) => (
-        <Event key={index} {...item} onSize={onSize} />
-      )),
-    []
-  );
+  const renderedItems = useMemo(() => {
+    return TABS.all.items.map((item, index) => (
+      <Event key={index} {...item} onSize={onSize} />
+    ));
+  }, [onSize]);
 
   return (
     <main className="main">
@@ -331,12 +329,13 @@ const Main = () => {
               id={`panel_${key}`}
               aria-labelledby={`tab_${key}`}>
               <ul className="section__panel-list">
-                {/* {TABS[key].items.map((item, index) => (
-                  <Event key={index} {...item} onSize={onSize} />
-                ))} */}
-                {Array.from({ length: 64 }).map((_, i) => (
-                  <React.Fragment key={i}>{renderedItems}</React.Fragment>
-                ))}
+                {key !== "all"
+                  ? TABS[key].items.map((item, index) => (
+                      <Event key={index} {...item} onSize={onSize} />
+                    ))
+                  : Array.from({ length: 64 }).map((_, i) => (
+                      <React.Fragment key={i}>{renderedItems}</React.Fragment>
+                    ))}
               </ul>
             </div>
           ))}
