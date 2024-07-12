@@ -14,7 +14,6 @@ module.exports = {
     publicPath: './',
   },
   mode: 'production',
-  devtool: 'source-map',
   optimization: {
     minimize: true,
     minimizer: [
