@@ -1,137 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Event from "./Event.jsx";
-
-const TABS = {
-  all: {
-    title: "Все",
-    items: [
-      {
-        icon: "light2",
-        iconLabel: "Освещение",
-        title: "Xiaomi Yeelight LED Smart Bulb",
-        subtitle: "Включено",
-      },
-      {
-        icon: "light",
-        iconLabel: "Освещение",
-        title: "D-Link Omna 180 Cam",
-        subtitle: "Включится в 17:00",
-      },
-      {
-        icon: "temp",
-        iconLabel: "Температура",
-        title: "Elgato Eve Degree Connected",
-        subtitle: "Выключено до 17:00",
-      },
-      {
-        icon: "light",
-        iconLabel: "Освещение",
-        title: "LIFX Mini Day & Dusk A60 E27",
-        subtitle: "Включится в 17:00",
-      },
-      {
-        icon: "light2",
-        iconLabel: "Освещение",
-        title: "Xiaomi Mi Air Purifier 2S",
-        subtitle: "Включено",
-      },
-      {
-        icon: "light",
-        iconLabel: "Освещение",
-        title: "Philips Zhirui",
-        subtitle: "Включено",
-      },
-      {
-        icon: "light",
-        iconLabel: "Освещение",
-        title: "Philips Zhirui",
-        subtitle: "Включено",
-      },
-      {
-        icon: "light2",
-        iconLabel: "Освещение",
-        title: "Xiaomi Mi Air Purifier 2S",
-        subtitle: "Включено",
-      },
-    ],
-  },
-  kitchen: {
-    title: "Кухня",
-    items: [
-      {
-        icon: "light2",
-        iconLabel: "Освещение",
-        title: "Xiaomi Yeelight LED Smart Bulb",
-        subtitle: "Включено",
-      },
-      {
-        icon: "temp",
-        iconLabel: "Температура",
-        title: "Elgato Eve Degree Connected",
-        subtitle: "Выключено до 17:00",
-      },
-    ],
-  },
-  hall: {
-    title: "Зал",
-    items: [
-      {
-        icon: "light",
-        iconLabel: "Освещение",
-        title: "Philips Zhirui",
-        subtitle: "Выключено",
-      },
-      {
-        icon: "light2",
-        iconLabel: "Освещение",
-        title: "Xiaomi Mi Air Purifier 2S",
-        subtitle: "Выключено",
-      },
-    ],
-  },
-  lights: {
-    title: "Лампочки",
-    items: [
-      {
-        icon: "light",
-        iconLabel: "Освещение",
-        title: "D-Link Omna 180 Cam",
-        subtitle: "Включится в 17:00",
-      },
-      {
-        icon: "light",
-        iconLabel: "Освещение",
-        title: "LIFX Mini Day & Dusk A60 E27",
-        subtitle: "Включится в 17:00",
-      },
-      {
-        icon: "light2",
-        iconLabel: "Освещение",
-        title: "Xiaomi Mi Air Purifier 2S",
-        subtitle: "Включено",
-      },
-      {
-        icon: "light",
-        iconLabel: "Освещение",
-        title: "Philips Zhirui",
-        subtitle: "Включено",
-      },
-    ],
-  },
-  cameras: {
-    title: "Камеры",
-    items: [
-      {
-        icon: "light2",
-        iconLabel: "Освещение",
-        title: "Xiaomi Mi Air Purifier 2S",
-        subtitle: "Включено",
-      },
-    ],
-  },
-};
-
-const TABS_KEYS = Object.keys(TABS);
+import { TABS, TABS_KEYS } from "./data.js";
 
 const Main = () => {
   const ref = useRef();
@@ -142,9 +11,11 @@ const Main = () => {
   useEffect(() => {
     if (!activeTab && !initedRef.current) {
       initedRef.current = true;
-      setActiveTab(new URLSearchParams(location.search).get("tab") || "all");
+      const tabFromUrl =
+        new URLSearchParams(location.search).get("tab") || "all";
+      setActiveTab(tabFromUrl);
     }
-  });
+  }, [activeTab]);
 
   const onSelectInput = (event) => {
     setActiveTab(event.target.value);
@@ -164,7 +35,7 @@ const Main = () => {
   });
 
   const onArrowCLick = () => {
-    const scroller = ref.current.querySelector(
+    const scroller = ref.current?.querySelector(
       ".section__panel:not(.section__panel_hidden)"
     );
     if (scroller) {
@@ -179,7 +50,7 @@ const Main = () => {
     return TABS.all.items.map((item, index) => (
       <Event key={index} {...item} onSize={onSize} />
     ));
-  }, [onSize]);
+  }, [TABS.all.items, onSize]);
 
   return (
     <main className="main">
